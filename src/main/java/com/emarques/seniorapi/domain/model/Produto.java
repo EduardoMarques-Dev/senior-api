@@ -39,4 +39,11 @@ public class Produto {
     @Column(nullable = false)
     private TipoItem tipoItem;
 
+    public void ativar() {
+        setAtivo(true);
+    }
+
+    public void inativar() {
+        setAtivo(false);
+    }
 }
