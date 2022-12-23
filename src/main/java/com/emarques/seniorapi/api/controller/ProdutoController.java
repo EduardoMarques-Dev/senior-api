@@ -87,7 +87,7 @@ public class ProdutoController {
     @PutMapping("/{produtoId}/inativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> inativar(@PathVariable Long produtoId) {
-        produtoService.ativar(produtoId);
+        produtoService.inativar(produtoId);
         return ResponseEntity.noContent().build();
     }
 
