@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -23,6 +24,8 @@ public class Pedido {
     private Long id;
     private String codigo;
     private BigDecimal valorTotal;
+    @Formula("false")
+    private boolean isValorTotalAtualizado;
     @Embedded
     private Endereco enderecoEntrega;
     @Enumerated(EnumType.STRING)
@@ -51,6 +54,18 @@ public class Pedido {
                 .map(item -> item.getPrecoTotal())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+        setValorTotalAtualizado(true);
+    }
+
+    public BigDecimal getValorTotal() {
+        if(!isValorTotalAtualizado)
+            calcularValorTotal();
+        return valorTotal;
+    }
+
+    public void setItens(List<ItemPedido> itens) {
+        this.itens = itens;
+        calcularValorTotal();
     }
 
     public void confirmar() {
@@ -81,13 +96,4 @@ public class Pedido {
         this.status = novoStatus;
     }
 
-//    public BigDecimal getValorTotal() {
-//        BigDecimal soma = BigDecimal.ZERO;
-//        if (!itens.isEmpty()){
-//            for (ItemPedido item : itens){
-//                soma.add(item.getPrecoTotal());
-//            }
-//        }
-//        return soma;
-//    }
 }
