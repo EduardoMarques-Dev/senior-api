@@ -22,18 +22,25 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String codigo;
+
     private BigDecimal valorTotal;
+
     @Formula("false")
     private boolean isValorTotalAtualizado;
+
     @Embedded
     private Endereco enderecoEntrega;
+
     @Enumerated(EnumType.STRING)
     private StatusPedido status = StatusPedido.CRIADO;
+
     @CreationTimestamp
     private OffsetDateTime dataCriacao;
+
     private OffsetDateTime dataConfirmacao;
+
     private OffsetDateTime dataCancelamento;
+
     private OffsetDateTime dataEntrega;
 
 //    @ManyToOne
@@ -47,16 +54,6 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens = new ArrayList<>();
 
-    public void calcularValorTotal() {
-        getItens().forEach(ItemPedido::calcularPrecoTotal);
-
-        this.valorTotal = getItens().stream()
-                .map(item -> item.getPrecoTotal())
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        setValorTotalAtualizado(true);
-    }
-
     public BigDecimal getValorTotal() {
         if(!isValorTotalAtualizado)
             calcularValorTotal();
@@ -66,6 +63,27 @@ public class Pedido {
     public void setItens(List<ItemPedido> itens) {
         this.itens = itens;
         calcularValorTotal();
+    }
+
+    private void setStatus(StatusPedido novoStatus) {
+        if (getStatus().naoPodeAlterarPara(novoStatus)) {
+            throw new NegocioException(
+                    String.format("Status do pedido %s não pode ser alterado de %s para %s",
+                            getId(), getStatus().getDescricao(),
+                            novoStatus.getDescricao()));
+        }
+
+        this.status = novoStatus;
+    }
+
+    public void calcularValorTotal() {
+        getItens().forEach(ItemPedido::calcularPrecoTotal);
+
+        this.valorTotal = getItens().stream()
+                .map(item -> item.getPrecoTotal())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        setValorTotalAtualizado(true);
     }
 
     public void confirmar() {
@@ -83,17 +101,6 @@ public class Pedido {
         setStatus(StatusPedido.CANCELADO);
         setDataCancelamento(OffsetDateTime.now());
 //        registerEvent(new PedidoCanceladoEvent(this));
-    }
-
-    private void setStatus(StatusPedido novoStatus) {
-        if (getStatus().naoPodeAlterarPara(novoStatus)) {
-            throw new NegocioException(
-                    String.format("Status do pedido %s não pode ser alterado de %s para %s",
-                            getCodigo(), getStatus().getDescricao(),
-                            novoStatus.getDescricao()));
-        }
-
-        this.status = novoStatus;
     }
 
 }

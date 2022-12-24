@@ -7,6 +7,7 @@ import com.emarques.seniorapi.domain.exception.NegocioException;
 import com.emarques.seniorapi.domain.exception.ProdutoNaoEncontradoException;
 import com.emarques.seniorapi.domain.model.ItemPedido;
 import com.emarques.seniorapi.domain.service.ItemPedidoService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class ItemPedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<ItemPedidoOutput> salvar(@RequestBody ItemPedidoInput itemPedidoInput){
+    public ResponseEntity<ItemPedidoOutput> salvar(@RequestBody @Valid ItemPedidoInput itemPedidoInput){
         // Sempre que uma entidade possuir relacionamentos, é possível que o relacionamento passado não exista
         // e isso dispare uma exception
         try {
@@ -57,7 +58,7 @@ public class ItemPedidoController {
 
     @PutMapping("/{itemPedidoId}")
     public ResponseEntity<ItemPedidoOutput> atualizar(@PathVariable Long itemPedidoId,
-                                                      @RequestBody ItemPedidoInput itemPedidoInput){
+                                                      @RequestBody @Valid ItemPedidoInput itemPedidoInput){
         // Sempre que uma entidade possuir relacionamentos, é possível que o relacionamento passado não exista
         // e isso dispare uma exception
         try {

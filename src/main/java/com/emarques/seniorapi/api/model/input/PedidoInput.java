@@ -1,12 +1,14 @@
 package com.emarques.seniorapi.api.model.input;
 
-import com.emarques.seniorapi.domain.enumerator.StatusPedido;
 import com.emarques.seniorapi.domain.model.Endereco;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,15 +16,11 @@ import java.util.List;
 @Setter
 public class PedidoInput {
 
-    private Long id;
-    private String codigo;
+    @PositiveOrZero
     private BigDecimal valorTotal;
+
+    @NotNull
     private Endereco enderecoEntrega;
-    private StatusPedido status;
-    private OffsetDateTime dataCriacao;
-    private OffsetDateTime dataConfirmacao;
-    private OffsetDateTime dataCancelamento;
-    private OffsetDateTime dataEntrega;
 
 //    @ManyToOne
 //    @JoinColumn(nullable = false)

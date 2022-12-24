@@ -9,12 +9,17 @@ import java.math.BigDecimal;
 @Setter
 public class ItemPedidoOutput {
     private Long id;
+
+    private Long pedidoId;
+
     private BigDecimal precoUnitario;
+
     private BigDecimal precoTotal;
+
     private Integer quantidade;
+
     private String observacao;
 
-    //    private PedidoOutput pedido;
     private ProdutoOutput produto;
 
 }

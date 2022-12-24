@@ -62,7 +62,7 @@ public class PedidoController {
 
     @PutMapping("/{pedidoId}")
     public ResponseEntity<PedidoOutput> atualizar(@PathVariable Long pedidoId,
-                                                  @RequestBody PedidoInput pedidoInput){
+                                                  @RequestBody @Valid PedidoInput pedidoInput){
         // Sempre que uma entidade possuir relacionamentos, é possível que o relacionamento passado não exista
         // e isso dispare uma exception
         try {

@@ -7,6 +7,7 @@ import com.emarques.seniorapi.domain.exception.NegocioException;
 import com.emarques.seniorapi.domain.exception.ProdutoNaoEncontradoException;
 import com.emarques.seniorapi.domain.model.Produto;
 import com.emarques.seniorapi.domain.service.ProdutoService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,7 +40,7 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<ProdutoOutput> salvar(@RequestBody ProdutoInput produtoInput){
+    public ResponseEntity<ProdutoOutput> salvar(@RequestBody @Valid ProdutoInput produtoInput){
         // Sempre que uma entidade possuir relacionamentos, é possível que o relacionamento passado não exista
         // e isso dispare uma exception
         try {
@@ -57,7 +58,7 @@ public class ProdutoController {
 
     @PutMapping("/{produtoId}")
     public ResponseEntity<ProdutoOutput> atualizar(@PathVariable Long produtoId,
-                                                   @RequestBody ProdutoInput produtoInput){
+                                                   @RequestBody @Valid ProdutoInput produtoInput){
         // Sempre que uma entidade possuir relacionamentos, é possível que o relacionamento passado não exista
         // e isso dispare uma exception
         try {
@@ -93,7 +94,7 @@ public class ProdutoController {
 
     @PutMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> ativarMultiplos(@RequestBody List<Long> produtoIds) {
+    public ResponseEntity<Void> ativarMultiplos(@RequestBody @Valid List<Long> produtoIds) {
         try {
             produtoService.ativar(produtoIds);
             return ResponseEntity.noContent().build();
@@ -104,7 +105,7 @@ public class ProdutoController {
 
     @DeleteMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> inativarMultiplos(@RequestBody List<Long> restauranteIds) {
+    public ResponseEntity<Void> inativarMultiplos(@RequestBody @Valid List<Long> restauranteIds) {
         try {
             produtoService.inativar(restauranteIds);
             return ResponseEntity.noContent().build();

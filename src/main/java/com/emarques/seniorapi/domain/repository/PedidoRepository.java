@@ -8,6 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface PedidoRepository extends CustomJpaRepository<Pedido, Long> {
-    Optional<Pedido> findByCodigo(String codigo);
-    void deleteByCodigo(String codigo);
 }
