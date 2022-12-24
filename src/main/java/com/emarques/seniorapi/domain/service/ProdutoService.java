@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -30,7 +31,7 @@ public class ProdutoService {
     }
 
     @Transactional
-    public Produto buscarOuFalhar(Long produtoId) {
+    public Produto buscarOuFalhar(UUID produtoId) {
         return produtoRepository.findById(produtoId)
                 .orElseThrow(() -> new ProdutoNaoEncontradoException(produtoId));
     }
@@ -41,7 +42,7 @@ public class ProdutoService {
     }
 
     @Transactional
-    public Produto atualizar(Long produtoId, Produto produto){
+    public Produto atualizar(UUID produtoId, Produto produto){
         Produto produtoAtual = buscarOuFalhar(produtoId);
 
         BeanUtils.copyProperties(produto,produtoAtual, "id");
@@ -50,10 +51,11 @@ public class ProdutoService {
     }
 
     @Transactional
-    public void remover(Long produtoId){
+    public void remover(UUID produtoId){
         try {
-        produtoRepository.deleteById(produtoId);
-        produtoRepository.flush();
+            produtoRepository.deleteById(produtoId);
+
+            produtoRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new ProdutoNaoEncontradoException(produtoId);
         } catch (DataIntegrityViolationException e) {
@@ -65,25 +67,25 @@ public class ProdutoService {
     /*----- NEGOCIO -------*/
 
     @Transactional
-    public void ativar(Long produtoId) {
+    public void ativar(UUID produtoId) {
         Produto produtoAtual = buscarOuFalhar(produtoId);
         produtoAtual.ativar();
     }
 
     @Transactional
-    public void inativar(Long produtoId) {
+    public void inativar(UUID produtoId) {
         Produto produtoAtual = buscarOuFalhar(produtoId);
 
         produtoAtual.inativar();
     }
 
     @Transactional
-    public void ativar(List<Long> produtosId) {
+    public void ativar(List<UUID> produtosId) {
         produtosId.forEach(this::ativar);
     }
 
     @Transactional
-    public void inativar(List<Long> produtosId) {
+    public void inativar(List<UUID> produtosId) {
         produtosId.forEach(this::inativar);
     }
 

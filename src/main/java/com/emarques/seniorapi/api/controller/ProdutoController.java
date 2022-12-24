@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/v1/produtos", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,7 +34,7 @@ public class ProdutoController {
     }
 
     @GetMapping("/{produtoId}")
-    public ResponseEntity<ProdutoOutput> buscar(@PathVariable Long produtoId){
+    public ResponseEntity<ProdutoOutput> buscar(@PathVariable UUID produtoId){
         return ResponseEntity.ok(
                 conversor.toOutput(produtoService.buscarOuFalhar(produtoId))
         );
@@ -41,8 +42,6 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity<ProdutoOutput> salvar(@RequestBody @Valid ProdutoInput produtoInput){
-        // Sempre que uma entidade possuir relacionamentos, é possível que o relacionamento passado não exista
-        // e isso dispare uma exception
         try {
             Produto produto = conversor.toDomain(produtoInput);
 
@@ -57,7 +56,7 @@ public class ProdutoController {
     }
 
     @PutMapping("/{produtoId}")
-    public ResponseEntity<ProdutoOutput> atualizar(@PathVariable Long produtoId,
+    public ResponseEntity<ProdutoOutput> atualizar(@PathVariable UUID produtoId,
                                                    @RequestBody @Valid ProdutoInput produtoInput){
         // Sempre que uma entidade possuir relacionamentos, é possível que o relacionamento passado não exista
         // e isso dispare uma exception
@@ -73,28 +72,28 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/{produtoId}")
-    public ResponseEntity<Void> remover(@PathVariable Long produtoId){
+    public ResponseEntity<Void> remover(@PathVariable UUID produtoId){
         produtoService.remover(produtoId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{produtoId}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> ativar(@PathVariable Long produtoId) {
+    public ResponseEntity<Void> ativar(@PathVariable UUID produtoId) {
         produtoService.ativar(produtoId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{produtoId}/inativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> inativar(@PathVariable Long produtoId) {
+    public ResponseEntity<Void> inativar(@PathVariable UUID produtoId) {
         produtoService.inativar(produtoId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> ativarMultiplos(@RequestBody @Valid List<Long> produtoIds) {
+    public ResponseEntity<Void> ativarMultiplos(@RequestBody @Valid List<UUID> produtoIds) {
         try {
             produtoService.ativar(produtoIds);
             return ResponseEntity.noContent().build();
@@ -105,9 +104,9 @@ public class ProdutoController {
 
     @DeleteMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> inativarMultiplos(@RequestBody @Valid List<Long> restauranteIds) {
+    public ResponseEntity<Void> inativarMultiplos(@RequestBody @Valid List<UUID> produtosIds) {
         try {
-            produtoService.inativar(restauranteIds);
+            produtoService.inativar(produtosIds);
             return ResponseEntity.noContent().build();
         } catch (ProdutoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
