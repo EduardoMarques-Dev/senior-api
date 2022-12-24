@@ -1,11 +1,14 @@
-package com.emarques.seniorapi.api.util;
+package com.emarques.seniorapi.api.mapper;
 
+import com.emarques.seniorapi.api.model.input.PedidoInput;
 import com.emarques.seniorapi.api.model.input.ProdutoInput;
+import com.emarques.seniorapi.api.model.ouput.PedidoOutput;
 import com.emarques.seniorapi.api.model.ouput.ProdutoOutput;
+import com.emarques.seniorapi.api.util.ModelConverter;
+import com.emarques.seniorapi.domain.model.Pedido;
 import com.emarques.seniorapi.domain.model.Produto;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,27 +16,27 @@ import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
-public class ProdutoConverter implements ModelConverter<Produto, ProdutoInput, ProdutoOutput> {
+public class PedidoMapper implements ModelConverter<Pedido, PedidoInput, PedidoOutput> {
     private ModelMapper modelMapper;
     @Override
-    public Produto toDomain(ProdutoInput input) {
-        return modelMapper.map(input, Produto.class);
+    public Pedido toDomain(PedidoInput input) {
+        return modelMapper.map(input, Pedido.class);
     }
 
     @Override
-    public ProdutoOutput toOutput(Produto domain) {
-        return modelMapper.map(domain, ProdutoOutput.class);
+    public PedidoOutput toOutput(Pedido domain) {
+        return modelMapper.map(domain, PedidoOutput.class);
     }
 
     @Override
-    public List<Produto> toDomainCollection(List<ProdutoInput> inputList) {
+    public List<Pedido> toDomainCollection(List<PedidoInput> inputList) {
         return inputList.stream()
                 .map(input -> toDomain(input))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ProdutoOutput> toOutputCollection(List<Produto> domainList) {
+    public List<PedidoOutput> toOutputCollection(List<Pedido> domainList) {
         return domainList.stream()
                 .map(domain -> toOutput(domain))
                 .collect(Collectors.toList());

@@ -1,6 +1,5 @@
 package com.emarques.seniorapi.infrastructure.repository;
 
-import com.emarques.seniorapi.domain.repository.CustomJpaRepository;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;

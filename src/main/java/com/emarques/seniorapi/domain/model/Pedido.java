@@ -1,6 +1,7 @@
 package com.emarques.seniorapi.domain.model;
 
 import com.emarques.seniorapi.domain.enumerator.StatusPedido;
+import com.emarques.seniorapi.domain.exception.NegocioException;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,6 +22,7 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String codigo;
     private BigDecimal subtotal;
     private BigDecimal taxaFrete;
     private BigDecimal valorTotal;
@@ -28,7 +30,8 @@ public class Pedido {
     @Embedded
     private Endereco enderecoEntrega;
 
-    private StatusPedido status;
+    @Enumerated(EnumType.STRING)
+    private StatusPedido status = StatusPedido.CRIADO;
 
     @CreationTimestamp
     private OffsetDateTime dataCriacao;
@@ -47,5 +50,45 @@ public class Pedido {
 
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens = new ArrayList<>();
+
+    public void calcularValorTotal() {
+        getItens().forEach(ItemPedido::calcularPrecoTotal);
+
+        this.subtotal = getItens().stream()
+                .map(item -> item.getPrecoTotal())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.valorTotal = this.subtotal.add(this.taxaFrete);
+    }
+
+    public void confirmar() {
+        setStatus(StatusPedido.CONFIRMADO);
+        setDataConfirmacao(OffsetDateTime.now());
+//        registerEvent(new PedidoConfirmadoEvent(this));
+    }
+
+    public void entregar() {
+        setStatus(StatusPedido.ENTREGUE);
+        setDataEntrega(OffsetDateTime.now());
+    }
+
+    public void cancelar() {
+        setStatus(StatusPedido.CANCELADO);
+        setDataCancelamento(OffsetDateTime.now());
+//        registerEvent(new PedidoCanceladoEvent(this));
+    }
+
+    private void setStatus(StatusPedido novoStatus) {
+        if (getStatus().naoPodeAlterarPara(novoStatus)) {
+            throw new NegocioException(
+                    String.format("Status do pedido %s não pode ser alterado de %s para %s",
+                            getCodigo(), getStatus().getDescricao(),
+                            novoStatus.getDescricao()));
+        }
+
+        this.status = novoStatus;
+    }
+
+
 
 }

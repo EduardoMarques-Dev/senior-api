@@ -1,4 +1,4 @@
-package com.emarques.seniorapi.domain.repository;
+package com.emarques.seniorapi.infrastructure.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;

@@ -1,6 +1,5 @@
 package com.emarques.seniorapi.domain.service;
 
-import com.emarques.seniorapi.domain.exception.NegocioException;
 import com.emarques.seniorapi.domain.exception.ProdutoNaoEncontradoException;
 import com.emarques.seniorapi.domain.model.Produto;
 import com.emarques.seniorapi.domain.repository.ProdutoRepository;
@@ -19,22 +18,18 @@ public class ProdutoService {
 
     @Transactional
     public List<Produto> listar(){
-        System.out.println("Listando o produto");
         return produtoRepository.findAll();
     }
 
     @Transactional
-    public Produto buscar(Long produtoId){
-        return buscarOuFalhar(produtoId);
+    public Produto buscarOuFalhar(Long produtoId) {
+        return produtoRepository.findById(produtoId)
+                .orElseThrow(() -> new ProdutoNaoEncontradoException(produtoId));
     }
-
 
     @Transactional
     public Produto salvar(Produto produto){
-
-            return produtoRepository.save(produto);
-
-
+        return produtoRepository.save(produto);
     }
 
     @Transactional
@@ -73,11 +68,6 @@ public class ProdutoService {
     @Transactional
     public void inativar(List<Long> produtosId) {
         produtosId.forEach(this::inativar);
-    }
-
-    public Produto buscarOuFalhar(Long produtoId) {
-        return produtoRepository.findById(produtoId)
-                .orElseThrow(() -> new ProdutoNaoEncontradoException(produtoId));
     }
 
 }

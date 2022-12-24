@@ -30,6 +30,7 @@ public class Produto {
     private Boolean ativo;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TipoItem tipoItem;
 
     public void ativar() {
