@@ -15,6 +15,8 @@ public class PedidoInput {
     @NotNull
     private Endereco enderecoEntrega;
 
+    private Integer desconto;
+
 //    @ManyToOne
 //    @JoinColumn(nullable = false)
 //    private FormaPagamento formaPagamento;

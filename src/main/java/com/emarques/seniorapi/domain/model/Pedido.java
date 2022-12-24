@@ -28,6 +28,10 @@ public class Pedido {
 
     private BigDecimal valorTotal;
 
+    private BigDecimal valorTotalComDesconto;
+
+    private BigDecimal desconto;
+
     @Formula("false")
     private boolean isValorTotalAtualizado;
 
@@ -75,14 +79,21 @@ public class Pedido {
             calcularValorTotal();
         return valorTotal;
     }
-
+    public BigDecimal getValorTotalComDesconto() {
+        if(!isValorTotalAtualizado)
+            calcularValorTotal();
+        return valorTotalComDesconto;
+    }
     public void setItens(List<ItemPedido> itens) {
         this.itens = itens;
         calcularValorTotal();
     }
     public void calcularValorTotal() {
-        this.valorTotal = getItens().stream()
+        valorTotal = getItens().stream()
                 .map(ItemPedido::getPrecoTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        valorTotalComDesconto = getItens().stream()
+                .map(ItemPedido::getPrecoTotalComDesconto)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         setValorTotalAtualizado(true);
@@ -107,11 +118,16 @@ public class Pedido {
 //        registerEvent(new PedidoCanceladoEvent(this));
     }
 
+    public void setDesconto(BigDecimal desconto) {
+        if (getAberto()){
+            this.desconto = desconto;
+        }
+    }
+
     public void abrir() {
         setAberto(true);
     }
 
-    public void fechar() { setAberto(false);
-    }
+    public void fechar() {setAberto(false);}
 
 }

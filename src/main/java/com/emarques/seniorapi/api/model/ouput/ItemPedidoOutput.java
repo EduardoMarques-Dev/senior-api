@@ -17,6 +17,8 @@ public class ItemPedidoOutput {
 
     private BigDecimal precoTotal;
 
+    private BigDecimal precoTotalComDesconto;
+
     private Integer quantidade;
 
     private String observacao;

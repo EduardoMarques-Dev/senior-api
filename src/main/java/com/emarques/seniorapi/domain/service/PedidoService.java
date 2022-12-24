@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -97,6 +98,12 @@ public class PedidoService {
     public void entregar(UUID pedidoId) {
         Pedido pedido = buscarOuFalhar(pedidoId);
         pedido.entregar();
+    }
+
+    @Transactional
+    public void aplicarDesconto(BigDecimal desconto, UUID pedidoId){
+        Pedido pedido = buscarOuFalhar(pedidoId);
+        pedido.setDesconto(desconto);
     }
 
     private void validarPedido(Pedido pedido) {

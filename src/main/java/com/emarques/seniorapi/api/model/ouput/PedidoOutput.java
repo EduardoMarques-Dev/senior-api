@@ -20,6 +20,10 @@ public class PedidoOutput {
 
     private BigDecimal valorTotal;
 
+    private BigDecimal valorTotalComDesconto;
+
+    private Integer desconto;
+
     private Endereco enderecoEntrega;
 
     private StatusPedido status;

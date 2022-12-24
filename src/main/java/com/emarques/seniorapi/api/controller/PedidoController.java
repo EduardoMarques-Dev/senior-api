@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -75,6 +76,12 @@ public class PedidoController {
         } catch (ProdutoNaoEncontradoException e){
             throw new NegocioException(e.getMessage());
         }
+    }
+
+    @PutMapping("/{pedidoId}/aplicarDesconto/{desconto}")
+    public ResponseEntity<Void> aplicarDesconto(@PathVariable UUID pedidoId, @PathVariable BigDecimal desconto){
+        pedidoService.aplicarDesconto(desconto, pedidoId);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{pedidoId}")
