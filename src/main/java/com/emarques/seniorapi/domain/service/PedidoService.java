@@ -56,8 +56,8 @@ public class PedidoService {
     }
 
     @Transactional
-    public void remover(String pedidoId){
-        pedidoRepository.deleteByCodigo(pedidoId);
+    public void remover(Long pedidoId){
+        pedidoRepository.deleteById(pedidoId);
         pedidoRepository.flush();
     }
 

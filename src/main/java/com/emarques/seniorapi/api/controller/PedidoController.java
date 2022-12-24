@@ -76,9 +76,9 @@ public class PedidoController {
         }
     }
 
-    @DeleteMapping("/{codigoPedido}")
-    public ResponseEntity<Void> remover(@PathVariable String codigoPedido){
-        pedidoService.remover(codigoPedido);
+    @DeleteMapping("/{pedidoId}")
+    public ResponseEntity<Void> remover(@PathVariable Long pedidoId){
+        pedidoService.remover(pedidoId);
         return ResponseEntity.noContent().build();
     }
 }
