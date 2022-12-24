@@ -3,6 +3,7 @@ package com.emarques.seniorapi.domain.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
@@ -23,6 +24,9 @@ public class ItemPedido {
 
     private BigDecimal precoTotal;
 
+    @Formula("false")
+    private boolean isPrecoTotalAtualizado;
+
     private Integer quantidade;
 
     private String observacao;
@@ -34,6 +38,17 @@ public class ItemPedido {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Produto produto;
+
+    public BigDecimal getPrecoTotal() {
+        if(!isPrecoTotalAtualizado)
+            calcularPrecoTotal();
+        return precoTotal;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+        calcularPrecoTotal();
+    }
 
     public void calcularPrecoTotal() {
         BigDecimal precoUnitario = this.getPrecoUnitario();
@@ -48,5 +63,8 @@ public class ItemPedido {
         }
 
         this.setPrecoTotal(precoUnitario.multiply(new BigDecimal(quantidade)));
+        setPrecoTotalAtualizado(true);
     }
+
+
 }

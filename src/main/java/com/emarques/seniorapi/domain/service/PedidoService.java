@@ -38,8 +38,10 @@ public class PedidoService {
 
     @Transactional
     public Pedido salvar(Pedido pedido) {
-        // LÓGICA
+        // INICIALIZAR
         validarPedido(pedido);
+
+        // LÓGICA
         pedido.calcularValorTotal();
 
         // PERSISTÊNCIA

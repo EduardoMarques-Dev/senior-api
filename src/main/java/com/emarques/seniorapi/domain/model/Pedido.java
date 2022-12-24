@@ -59,17 +59,6 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens = new ArrayList<>();
 
-    public BigDecimal getValorTotal() {
-        if(!isValorTotalAtualizado)
-            calcularValorTotal();
-        return valorTotal;
-    }
-
-    public void setItens(List<ItemPedido> itens) {
-        this.itens = itens;
-        calcularValorTotal();
-    }
-
     private void setStatus(StatusPedido novoStatus) {
         if (getStatus().naoPodeAlterarPara(novoStatus)) {
             throw new NegocioException(
@@ -81,11 +70,19 @@ public class Pedido {
         this.status = novoStatus;
     }
 
-    public void calcularValorTotal() {
-        getItens().forEach(ItemPedido::calcularPrecoTotal);
+    public BigDecimal getValorTotal() {
+        if(!isValorTotalAtualizado)
+            calcularValorTotal();
+        return valorTotal;
+    }
 
+    public void setItens(List<ItemPedido> itens) {
+        this.itens = itens;
+        calcularValorTotal();
+    }
+    public void calcularValorTotal() {
         this.valorTotal = getItens().stream()
-                .map(item -> item.getPrecoTotal())
+                .map(ItemPedido::getPrecoTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         setValorTotalAtualizado(true);

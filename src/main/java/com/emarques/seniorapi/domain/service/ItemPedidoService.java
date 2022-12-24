@@ -46,6 +46,9 @@ public class ItemPedidoService {
         // INICIALIZAR
         Pedido pedido = validarItensDoPedido(itemPedido);
 
+        // LÓGICA
+        itemPedido.calcularPrecoTotal();
+
         // PERSISTÊNCIA
         itemPedido = itemPedidoRepository.save(itemPedido);
         pedidoService.atualizar(pedido.getId(),pedido);
@@ -61,6 +64,7 @@ public class ItemPedidoService {
 
         // LÓGICA
         BeanUtils.copyProperties(itemPedido,itemPedidoAtual, "id");
+        itemPedidoAtual.calcularPrecoTotal();
 
         // PERSISTÊNCIA
         itemPedidoAtual = itemPedidoRepository.save(itemPedidoAtual);
