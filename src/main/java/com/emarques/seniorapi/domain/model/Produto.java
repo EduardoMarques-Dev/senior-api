@@ -1,7 +1,6 @@
 package com.emarques.seniorapi.domain.model;
 
 import com.emarques.seniorapi.domain.enumerator.TipoItem;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,6 +14,7 @@ import java.util.UUID;
 @Entity
 public class Produto {
 
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")

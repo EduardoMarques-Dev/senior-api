@@ -1,5 +1,7 @@
 package com.emarques.seniorapi.domain.exception;
 
+import java.util.UUID;
+
 public class ItemPedidoNaoEncontradoException extends EntidadeNaoEncontradaException {
 
     private static final long serialVersionUID = 1L;
@@ -8,7 +10,7 @@ public class ItemPedidoNaoEncontradoException extends EntidadeNaoEncontradaExcep
         super(mensagem);
     }
 
-    public ItemPedidoNaoEncontradoException(Long itemPedidoId) {
+    public ItemPedidoNaoEncontradoException(UUID itemPedidoId) {
         this(String.format("Não existe um cadastro de item do pedido com o código %d", itemPedidoId));
     }
 

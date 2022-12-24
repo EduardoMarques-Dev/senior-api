@@ -10,12 +10,13 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class PedidoOutput {
 
-    private Long id;
+    private UUID id;
 
     private BigDecimal valorTotal;
 

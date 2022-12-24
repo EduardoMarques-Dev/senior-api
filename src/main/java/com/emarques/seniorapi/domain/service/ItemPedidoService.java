@@ -1,6 +1,8 @@
 package com.emarques.seniorapi.domain.service;
 
+import com.emarques.seniorapi.domain.exception.EntidadeEmUsoException;
 import com.emarques.seniorapi.domain.exception.ItemPedidoNaoEncontradoException;
+import com.emarques.seniorapi.domain.exception.ProdutoNaoEncontradoException;
 import com.emarques.seniorapi.domain.model.ItemPedido;
 import com.emarques.seniorapi.domain.model.Pedido;
 import com.emarques.seniorapi.domain.model.Produto;
@@ -8,13 +10,19 @@ import com.emarques.seniorapi.domain.repository.ItemPedidoRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class ItemPedidoService {
+
+    private static final String MSG_ITEM_PEDIDO_EM_USO
+            = "O Item do Pedido %d não pode ser removido, pois está em uso";
 
     private ItemPedidoRepository itemPedidoRepository;
     private ProdutoService produtoService;
@@ -27,7 +35,7 @@ public class ItemPedidoService {
     }
 
     @Transactional
-    public ItemPedido buscarOuFalhar(Long itemPedidoId) {
+    public ItemPedido buscarOuFalhar(UUID itemPedidoId) {
         return itemPedidoRepository.findById(itemPedidoId)
                 .orElseThrow(() -> new ItemPedidoNaoEncontradoException(itemPedidoId));
     }
@@ -45,7 +53,7 @@ public class ItemPedidoService {
     }
 
     @Transactional
-    public ItemPedido atualizar(Long itemPedidoId, ItemPedido itemPedido){
+    public ItemPedido atualizar(UUID itemPedidoId, ItemPedido itemPedido){
         // INICIALIZAR
         Pedido pedido = validarItensDoPedido(itemPedido);
         ItemPedido itemPedidoAtual = buscarOuFalhar(itemPedidoId);
@@ -61,9 +69,18 @@ public class ItemPedidoService {
     }
 
     @Transactional
-    public void remover(Long itemPedidoId){
-        itemPedidoRepository.deleteById(itemPedidoId);
-        itemPedidoRepository.flush();
+    public void remover(UUID itemPedidoId){
+        try{
+            itemPedidoRepository.deleteById(itemPedidoId);
+            itemPedidoRepository.flush();
+        } catch (
+                EmptyResultDataAccessException e) {
+            throw new ProdutoNaoEncontradoException(itemPedidoId);
+        } catch (
+                DataIntegrityViolationException e) {
+            throw new EntidadeEmUsoException(
+                    String.format(MSG_ITEM_PEDIDO_EM_USO, itemPedidoId));
+        }
     }
 
     private Pedido validarItensDoPedido(ItemPedido itemPedido) {

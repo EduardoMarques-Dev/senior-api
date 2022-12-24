@@ -19,7 +19,7 @@ import java.util.UUID;
 public class ProdutoService {
 
     private static final String MSG_PRODUTO_EM_USO
-            = "O Produto %d não pode ser removida, pois está em uso";
+            = "O Produto %d não pode ser removido, pois está em uso";
 
     private ProdutoRepository produtoRepository;
 
@@ -38,15 +38,19 @@ public class ProdutoService {
 
     @Transactional
     public Produto salvar(Produto produto){
+        // PERSISTÊNCIA
         return produtoRepository.save(produto);
     }
 
     @Transactional
     public Produto atualizar(UUID produtoId, Produto produto){
+        // INICIALIZAR
         Produto produtoAtual = buscarOuFalhar(produtoId);
 
+        // LÓGICA
         BeanUtils.copyProperties(produto,produtoAtual, "id");
 
+        // PERSISTÊNCIA
         return produtoRepository.save(produtoAtual);
     }
 
@@ -54,7 +58,6 @@ public class ProdutoService {
     public void remover(UUID produtoId){
         try {
             produtoRepository.deleteById(produtoId);
-
             produtoRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new ProdutoNaoEncontradoException(produtoId);

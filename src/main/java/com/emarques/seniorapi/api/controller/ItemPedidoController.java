@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/v1/itemPedidos", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,7 +34,7 @@ public class ItemPedidoController {
     }
 
     @GetMapping("/{itemPedidoId}")
-    public ResponseEntity<ItemPedidoOutput> buscar(@PathVariable Long itemPedidoId){
+    public ResponseEntity<ItemPedidoOutput> buscar(@PathVariable UUID itemPedidoId){
         return ResponseEntity.ok(
                 conversor.toOutput(itemPedidoService.buscarOuFalhar(itemPedidoId))
         );
@@ -57,7 +58,7 @@ public class ItemPedidoController {
     }
 
     @PutMapping("/{itemPedidoId}")
-    public ResponseEntity<ItemPedidoOutput> atualizar(@PathVariable Long itemPedidoId,
+    public ResponseEntity<ItemPedidoOutput> atualizar(@PathVariable UUID itemPedidoId,
                                                       @RequestBody @Valid ItemPedidoInput itemPedidoInput){
         // Sempre que uma entidade possuir relacionamentos, é possível que o relacionamento passado não exista
         // e isso dispare uma exception
@@ -73,7 +74,7 @@ public class ItemPedidoController {
     }
 
     @DeleteMapping("/{itemPedidoId}")
-    public ResponseEntity<Void> remover(@PathVariable Long itemPedidoId){
+    public ResponseEntity<Void> remover(@PathVariable UUID itemPedidoId){
         itemPedidoService.remover(itemPedidoId);
         return ResponseEntity.noContent().build();
     }

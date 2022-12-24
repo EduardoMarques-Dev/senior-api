@@ -1,18 +1,25 @@
 package com.emarques.seniorapi.domain.service;
 
+import com.emarques.seniorapi.domain.exception.EntidadeEmUsoException;
 import com.emarques.seniorapi.domain.exception.PedidoNaoEncontradoException;
 import com.emarques.seniorapi.domain.model.Pedido;
 import com.emarques.seniorapi.domain.repository.PedidoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class PedidoService {
+
+    private static final String MSG_PEDIDO_EM_USO
+            = "O Pedido %d não pode ser removido, pois está em uso";
 
     PedidoRepository pedidoRepository;
 
@@ -24,7 +31,7 @@ public class PedidoService {
     }
 
     @Transactional
-    public Pedido buscarOuFalhar(Long pedidoId) {
+    public Pedido buscarOuFalhar(UUID pedidoId) {
         return pedidoRepository.findById(pedidoId)
                 .orElseThrow(() -> new PedidoNaoEncontradoException(pedidoId));
     }
@@ -36,19 +43,17 @@ public class PedidoService {
         pedido.calcularValorTotal();
 
         // PERSISTÊNCIA
-        pedido = pedidoRepository.save(pedido);
-        return pedido;
+        return pedidoRepository.save(pedido);
     }
 
     @Transactional
-    public Pedido atualizar(Long pedidoId, Pedido pedido) {
+    public Pedido atualizar(UUID pedidoId, Pedido pedido) {
         // INICIALIZAR
         validarPedido(pedido);
         Pedido pedidoAtual = buscarOuFalhar(pedidoId);
 
         // LÓGICA
-        BeanUtils.copyProperties(pedido, pedidoAtual,
-                "id");
+        BeanUtils.copyProperties(pedido, pedidoAtual,"id");
         pedidoAtual.calcularValorTotal();
 
         // PERSISTÊNCIA
@@ -56,15 +61,22 @@ public class PedidoService {
     }
 
     @Transactional
-    public void remover(Long pedidoId){
-        pedidoRepository.deleteById(pedidoId);
-        pedidoRepository.flush();
+    public void remover(UUID pedidoId){
+        try {
+            pedidoRepository.deleteById(pedidoId);
+            pedidoRepository.flush();
+        } catch (EmptyResultDataAccessException e) {
+            throw new PedidoNaoEncontradoException(pedidoId);
+        } catch (DataIntegrityViolationException e) {
+            throw new EntidadeEmUsoException(
+                    String.format(MSG_PEDIDO_EM_USO, pedidoId));
+        }
     }
 
     /*----- NEGOCIO -------*/
 
     @Transactional
-    public void confirmar(Long pedidoId) {
+    public void confirmar(UUID pedidoId) {
         Pedido pedido = buscarOuFalhar(pedidoId);
         pedido.confirmar();
 
@@ -72,7 +84,7 @@ public class PedidoService {
     }
 
     @Transactional
-    public void cancelar(Long pedidoId) {
+    public void cancelar(UUID pedidoId) {
         Pedido pedido = buscarOuFalhar(pedidoId);
         pedido.cancelar();
 
@@ -80,7 +92,7 @@ public class PedidoService {
     }
 
     @Transactional
-    public void entregar(Long pedidoId) {
+    public void entregar(UUID pedidoId) {
         Pedido pedido = buscarOuFalhar(pedidoId);
         pedido.entregar();
     }
@@ -103,15 +115,4 @@ public class PedidoService {
 //                    formaPagamento.getDescricao()));
 //        }
     }
-
-//    private void validarItens(Pedido pedido) {
-//        // VERIFICAR SE AS FOREIGN KEYS DOS ITENS DO PEDIDO SÃO VÁLIDAS
-//
-//        pedido.getItens().forEach(item -> {
-//            Produto produto = produtoService.buscarOuFalhar(item.getProduto().getId());
-//            item.setPedido(pedido);
-//            item.setProduto(produto);
-//            item.setPrecoUnitario(produto.getPreco());
-//        });
-//    }
 }

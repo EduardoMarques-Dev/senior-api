@@ -4,13 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class ItemPedidoOutput {
-    private Long id;
+    private UUID id;
 
-    private Long pedidoId;
+    private UUID pedidoId;
 
     private BigDecimal precoUnitario;
 
