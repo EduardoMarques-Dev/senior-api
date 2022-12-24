@@ -34,6 +34,8 @@ public class Pedido {
     @Embedded
     private Endereco enderecoEntrega;
 
+    private Boolean aberto = true;
+
     @Enumerated(EnumType.STRING)
     private StatusPedido status = StatusPedido.CRIADO;
 
@@ -97,13 +99,22 @@ public class Pedido {
 
     public void entregar() {
         setStatus(StatusPedido.ENTREGUE);
+        fechar();
         setDataEntrega(OffsetDateTime.now());
     }
 
     public void cancelar() {
         setStatus(StatusPedido.CANCELADO);
+        fechar();
         setDataCancelamento(OffsetDateTime.now());
 //        registerEvent(new PedidoCanceladoEvent(this));
+    }
+
+    public void abrir() {
+        setAberto(true);
+    }
+
+    public void fechar() { setAberto(false);
     }
 
 }

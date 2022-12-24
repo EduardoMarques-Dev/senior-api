@@ -2,6 +2,7 @@ package com.emarques.seniorapi.domain.service;
 
 import com.emarques.seniorapi.domain.exception.EntidadeEmUsoException;
 import com.emarques.seniorapi.domain.exception.ItemPedidoNaoEncontradoException;
+import com.emarques.seniorapi.domain.exception.ProdutoDesativadoException;
 import com.emarques.seniorapi.domain.exception.ProdutoNaoEncontradoException;
 import com.emarques.seniorapi.domain.model.ItemPedido;
 import com.emarques.seniorapi.domain.model.Pedido;
@@ -85,6 +86,10 @@ public class ItemPedidoService {
 
     private Pedido validarItensDoPedido(ItemPedido itemPedido) {
         Produto produto = produtoService.buscarOuFalhar(itemPedido.getProduto().getId());
+        if (!produto.getAtivo()){
+            throw new ProdutoDesativadoException(produto.getId());
+        }
+
         Pedido pedido = pedidoService.buscarOuFalhar(itemPedido.getPedido().getId());
 
         itemPedido.setPedido(pedido);

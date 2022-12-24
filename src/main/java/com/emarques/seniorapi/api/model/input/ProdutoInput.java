@@ -24,9 +24,6 @@ public class ProdutoInput {
     private BigDecimal preco;
 
     @NotNull
-    private Boolean ativo;
-
-    @NotNull
     private TipoItem tipoItem;
 
 }

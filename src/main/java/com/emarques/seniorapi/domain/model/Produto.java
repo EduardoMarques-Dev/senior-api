@@ -4,9 +4,12 @@ import com.emarques.seniorapi.domain.enumerator.TipoItem;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
@@ -25,10 +28,16 @@ public class Produto {
 
     private BigDecimal preco;
 
-    private Boolean ativo;
+    private Boolean ativo = true;
 
     @Enumerated(EnumType.STRING)
     private TipoItem tipoItem;
+
+    @CreationTimestamp
+    private OffsetDateTime dataCriacao;
+
+    @UpdateTimestamp
+    private OffsetDateTime dataAtualizacao;
 
     public void ativar() {
         setAtivo(true);
