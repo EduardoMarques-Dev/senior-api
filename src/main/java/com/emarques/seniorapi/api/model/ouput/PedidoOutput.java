@@ -2,7 +2,6 @@ package com.emarques.seniorapi.api.model.ouput;
 
 import com.emarques.seniorapi.domain.enumerator.StatusPedido;
 import com.emarques.seniorapi.domain.model.Endereco;
-import com.emarques.seniorapi.domain.model.ItemPedido;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,18 +15,11 @@ import java.util.List;
 public class PedidoOutput {
 
     private Long id;
-
     private String codigo;
-    private BigDecimal subtotal;
-    private BigDecimal taxaFrete;
     private BigDecimal valorTotal;
-
     private Endereco enderecoEntrega;
-
     private StatusPedido status;
-
     private OffsetDateTime dataCriacao;
-
     private OffsetDateTime dataConfirmacao;
     private OffsetDateTime dataCancelamento;
     private OffsetDateTime dataEntrega;

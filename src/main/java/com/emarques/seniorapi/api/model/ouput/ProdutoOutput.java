@@ -10,15 +10,10 @@ import java.math.BigDecimal;
 @Setter
 public class ProdutoOutput {
     private Long id;
-
     private String nome;
-
     private String descricao;
-
     private BigDecimal preco;
-
     private Boolean ativo;
-
     private TipoItem tipoItem;
 
 }

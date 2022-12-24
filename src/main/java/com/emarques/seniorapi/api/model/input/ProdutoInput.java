@@ -12,13 +12,9 @@ import java.math.BigDecimal;
 @Setter
 public class ProdutoInput {
     private Long id;
-
     private String nome;
-
     private String descricao;
-
     private BigDecimal preco;
-
     private Boolean ativo;
 
     @Enumerated(value = EnumType.STRING)

@@ -1,8 +1,8 @@
 package com.emarques.seniorapi.api.controller;
 
+import com.emarques.seniorapi.api.mapper.ProdutoMapper;
 import com.emarques.seniorapi.api.model.input.ProdutoInput;
 import com.emarques.seniorapi.api.model.ouput.ProdutoOutput;
-import com.emarques.seniorapi.api.mapper.ProdutoMapper;
 import com.emarques.seniorapi.domain.exception.NegocioException;
 import com.emarques.seniorapi.domain.exception.ProdutoNaoEncontradoException;
 import com.emarques.seniorapi.domain.model.Produto;
@@ -22,7 +22,6 @@ import java.util.List;
 public class ProdutoController {
 
     private ProdutoService produtoService;
-
     private ProdutoMapper conversor;
 
     @GetMapping
@@ -102,7 +101,6 @@ public class ProdutoController {
             throw new NegocioException(e.getMessage(), e);
         }
     }
-
 
     @DeleteMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)

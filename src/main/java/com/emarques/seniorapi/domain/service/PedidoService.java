@@ -1,10 +1,7 @@
 package com.emarques.seniorapi.domain.service;
 
 import com.emarques.seniorapi.domain.exception.PedidoNaoEncontradoException;
-import com.emarques.seniorapi.domain.model.ItemPedido;
 import com.emarques.seniorapi.domain.model.Pedido;
-import com.emarques.seniorapi.domain.model.Produto;
-import com.emarques.seniorapi.domain.repository.ItemPedidoRepository;
 import com.emarques.seniorapi.domain.repository.PedidoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -17,11 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PedidoService {
 
-    ProdutoService produtoService;
-
     PedidoRepository pedidoRepository;
-
-    ItemPedidoRepository itemPedidoRepository;
 
     /*----- CRUD -------*/
 
@@ -31,69 +24,64 @@ public class PedidoService {
     }
 
     @Transactional
-    public Pedido buscarOuFalhar(String codigoPedido) {
-        return pedidoRepository.findByCodigo(codigoPedido)
-                .orElseThrow(() -> new PedidoNaoEncontradoException(codigoPedido));
+    public Pedido buscarOuFalhar(Long pedidoId) {
+        return pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new PedidoNaoEncontradoException(pedidoId));
     }
 
     @Transactional
     public Pedido salvar(Pedido pedido) {
+        // LÓGICA
         validarPedido(pedido);
-        validarItens(pedido);
-
-//        pedido.setTaxaFrete(pedido.getRestaurante().getTaxaFrete());
         pedido.calcularValorTotal();
 
-//        List<ItemPedido> itemPedidos = itemPedidoRepository.saveAll(pedido.getItens());
-//        pedido.setItens(itemPedidos);
-
+        // PERSISTÊNCIA
         pedido = pedidoRepository.save(pedido);
-
         return pedido;
     }
 
     @Transactional
-    public Pedido atualizar(String codigoPedido, Pedido pedido) {
-        Pedido pedidoAtual = buscarOuFalhar(codigoPedido);
+    public Pedido atualizar(Long pedidoId, Pedido pedido) {
+        // INICIALIZAR
+        validarPedido(pedido);
+        Pedido pedidoAtual = buscarOuFalhar(pedidoId);
 
+        // LÓGICA
         BeanUtils.copyProperties(pedido, pedidoAtual,
                 "id");
-
-        validarPedido(pedidoAtual);
-        validarItens(pedidoAtual);
-//        pedido.setTaxaFrete(pedido.getRestaurante().getTaxaFrete());
         pedidoAtual.calcularValorTotal();
 
+        // PERSISTÊNCIA
         return pedidoRepository.save(pedidoAtual);
     }
 
     @Transactional
-    public void remover(String codigoPedido){
-        pedidoRepository.deleteByCodigo(codigoPedido);
+    public void remover(String pedidoId){
+        pedidoRepository.deleteByCodigo(pedidoId);
         pedidoRepository.flush();
     }
 
     /*----- NEGOCIO -------*/
 
     @Transactional
-    public void confirmar(String codigoPedido) {
-        Pedido pedido = buscarOuFalhar(codigoPedido);
+    public void confirmar(Long pedidoId) {
+        Pedido pedido = buscarOuFalhar(pedidoId);
         pedido.confirmar();
 
         pedidoRepository.save(pedido);
     }
 
     @Transactional
-    public void cancelar(String codigoPedido) {
-        Pedido pedido = buscarOuFalhar(codigoPedido);
+    public void cancelar(Long pedidoId) {
+        Pedido pedido = buscarOuFalhar(pedidoId);
         pedido.cancelar();
 
         pedidoRepository.save(pedido);
     }
 
     @Transactional
-    public void entregar(String codigoPedido) {
-        Pedido pedido = buscarOuFalhar(codigoPedido);
+    public void entregar(Long pedidoId) {
+        Pedido pedido = buscarOuFalhar(pedidoId);
         pedido.entregar();
     }
 
@@ -116,14 +104,14 @@ public class PedidoService {
 //        }
     }
 
-    private void validarItens(Pedido pedido) {
-        // VERIFICAR SE AS FOREIGN KEYS DOS ITENS DO PEDIDO SÃO VÁLIDAS
-
-        pedido.getItens().forEach(item -> {
-            Produto produto = produtoService.buscarOuFalhar(item.getProduto().getId());
-            item.setPedido(pedido);
-            item.setProduto(produto);
-            item.setPrecoUnitario(produto.getPreco());
-        });
-    }
+//    private void validarItens(Pedido pedido) {
+//        // VERIFICAR SE AS FOREIGN KEYS DOS ITENS DO PEDIDO SÃO VÁLIDAS
+//
+//        pedido.getItens().forEach(item -> {
+//            Produto produto = produtoService.buscarOuFalhar(item.getProduto().getId());
+//            item.setPedido(pedido);
+//            item.setProduto(produto);
+//            item.setPrecoUnitario(produto.getPreco());
+//        });
+//    }
 }

@@ -21,21 +21,14 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String codigo;
-    private BigDecimal subtotal;
-    private BigDecimal taxaFrete;
     private BigDecimal valorTotal;
-
     @Embedded
     private Endereco enderecoEntrega;
-
     @Enumerated(EnumType.STRING)
     private StatusPedido status = StatusPedido.CRIADO;
-
     @CreationTimestamp
     private OffsetDateTime dataCriacao;
-
     private OffsetDateTime dataConfirmacao;
     private OffsetDateTime dataCancelamento;
     private OffsetDateTime dataEntrega;
@@ -54,11 +47,10 @@ public class Pedido {
     public void calcularValorTotal() {
         getItens().forEach(ItemPedido::calcularPrecoTotal);
 
-        this.subtotal = getItens().stream()
+        this.valorTotal = getItens().stream()
                 .map(item -> item.getPrecoTotal())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        this.valorTotal = this.subtotal.add(this.taxaFrete);
     }
 
     public void confirmar() {
@@ -89,6 +81,13 @@ public class Pedido {
         this.status = novoStatus;
     }
 
-
-
+//    public BigDecimal getValorTotal() {
+//        BigDecimal soma = BigDecimal.ZERO;
+//        if (!itens.isEmpty()){
+//            for (ItemPedido item : itens){
+//                soma.add(item.getPrecoTotal());
+//            }
+//        }
+//        return soma;
+//    }
 }

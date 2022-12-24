@@ -16,6 +16,8 @@ public class ProdutoService {
 
     private ProdutoRepository produtoRepository;
 
+    /*----- CRUD -------*/
+
     @Transactional
     public List<Produto> listar(){
         return produtoRepository.findAll();
@@ -46,6 +48,8 @@ public class ProdutoService {
         produtoRepository.deleteById(produtoId);
         produtoRepository.flush();
     }
+
+    /*----- NEGOCIO -------*/
 
     @Transactional
     public void ativar(Long produtoId) {

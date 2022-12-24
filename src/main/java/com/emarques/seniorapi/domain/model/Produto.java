@@ -16,19 +16,14 @@ public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     private String nome;
-
     @Column(nullable = false)
     private String descricao;
-
     @Column(nullable = false)
     private BigDecimal preco;
-
     @Column(nullable = false)
     private Boolean ativo;
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoItem tipoItem;

@@ -1,7 +1,5 @@
 package com.emarques.seniorapi.api.model.ouput;
 
-import com.emarques.seniorapi.domain.model.Pedido;
-import com.emarques.seniorapi.domain.model.Produto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +14,7 @@ public class ItemPedidoOutput {
     private Integer quantidade;
     private String observacao;
 
-//    private PedidoOutput pedido;
+    //    private PedidoOutput pedido;
     private ProdutoOutput produto;
 
 }

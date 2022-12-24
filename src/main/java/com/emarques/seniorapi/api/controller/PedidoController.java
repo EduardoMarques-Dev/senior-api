@@ -6,7 +6,6 @@ import com.emarques.seniorapi.api.model.ouput.PedidoOutput;
 import com.emarques.seniorapi.domain.exception.EntidadeNaoEncontradaException;
 import com.emarques.seniorapi.domain.exception.NegocioException;
 import com.emarques.seniorapi.domain.exception.ProdutoNaoEncontradoException;
-import com.emarques.seniorapi.domain.model.ItemPedido;
 import com.emarques.seniorapi.domain.model.Pedido;
 import com.emarques.seniorapi.domain.service.PedidoService;
 import jakarta.validation.Valid;
@@ -25,7 +24,6 @@ import java.util.List;
 public class PedidoController {
 
     private PedidoService pedidoService;
-
     private PedidoMapper conversor;
 
     @GetMapping
@@ -35,10 +33,10 @@ public class PedidoController {
         );
     }
 
-    @GetMapping("/{codigoPedido}")
-    public ResponseEntity<PedidoOutput> buscar(@PathVariable String codigoPedido) {
+    @GetMapping("/{pedidoId}")
+    public ResponseEntity<PedidoOutput> buscar(@PathVariable Long pedidoId) {
         return ResponseEntity.ok(
-                conversor.toOutput(pedidoService.buscarOuFalhar(codigoPedido))
+                conversor.toOutput(pedidoService.buscarOuFalhar(pedidoId))
         );
     }
 
@@ -62,15 +60,15 @@ public class PedidoController {
         }
     }
 
-    @PutMapping("/{codigoPedido}")
-    public ResponseEntity<PedidoOutput> atualizar(@PathVariable String codigoPedido,
+    @PutMapping("/{pedidoId}")
+    public ResponseEntity<PedidoOutput> atualizar(@PathVariable Long pedidoId,
                                                   @RequestBody PedidoInput pedidoInput){
         // Sempre que uma entidade possuir relacionamentos, é possível que o relacionamento passado não exista
         // e isso dispare uma exception
         try {
             Pedido pedido = conversor.toDomain(pedidoInput);
 
-            pedido = pedidoService.atualizar(codigoPedido, pedido);
+            pedido = pedidoService.atualizar(pedidoId, pedido);
 
             return ResponseEntity.ok(conversor.toOutput(pedido));
         } catch (ProdutoNaoEncontradoException e){
@@ -83,8 +81,4 @@ public class PedidoController {
         pedidoService.remover(codigoPedido);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
 }

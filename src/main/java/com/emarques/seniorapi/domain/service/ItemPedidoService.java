@@ -2,6 +2,8 @@ package com.emarques.seniorapi.domain.service;
 
 import com.emarques.seniorapi.domain.exception.ItemPedidoNaoEncontradoException;
 import com.emarques.seniorapi.domain.model.ItemPedido;
+import com.emarques.seniorapi.domain.model.Pedido;
+import com.emarques.seniorapi.domain.model.Produto;
 import com.emarques.seniorapi.domain.repository.ItemPedidoRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,9 @@ import java.util.List;
 public class ItemPedidoService {
 
     private ItemPedidoRepository itemPedidoRepository;
+    private ProdutoService produtoService;
+
+    private PedidoService pedidoService;
 
     @Transactional
     public List<ItemPedido> listar(){
@@ -22,22 +27,37 @@ public class ItemPedidoService {
     }
 
     @Transactional
-    public ItemPedido buscar(Long itemPedidoId){
-        return buscarOuFalhar(itemPedidoId);
+    public ItemPedido buscarOuFalhar(Long itemPedidoId) {
+        return itemPedidoRepository.findById(itemPedidoId)
+                .orElseThrow(() -> new ItemPedidoNaoEncontradoException(itemPedidoId));
     }
 
     @Transactional
     public ItemPedido salvar(ItemPedido itemPedido){
-        return itemPedidoRepository.save(itemPedido);
+        // INICIALIZAR
+        Pedido pedido = validarItensDoPedido(itemPedido);
+
+        // PERSISTÊNCIA
+        itemPedido = itemPedidoRepository.save(itemPedido);
+        pedidoService.atualizar(pedido.getId(),pedido);
+
+        return itemPedido;
     }
 
     @Transactional
     public ItemPedido atualizar(Long itemPedidoId, ItemPedido itemPedido){
+        // INICIALIZAR
+        Pedido pedido = validarItensDoPedido(itemPedido);
         ItemPedido itemPedidoAtual = buscarOuFalhar(itemPedidoId);
 
+        // LÓGICA
         BeanUtils.copyProperties(itemPedido,itemPedidoAtual, "id");
 
-        return itemPedidoRepository.save(itemPedidoAtual);
+        // PERSISTÊNCIA
+        itemPedidoAtual = itemPedidoRepository.save(itemPedidoAtual);
+        pedidoService.atualizar(pedido.getId(),pedido);
+
+        return itemPedidoAtual;
     }
 
     @Transactional
@@ -46,10 +66,17 @@ public class ItemPedidoService {
         itemPedidoRepository.flush();
     }
 
-    public ItemPedido buscarOuFalhar(Long itemPedidoId) {
-        return itemPedidoRepository.findById(itemPedidoId)
-                .orElseThrow(() -> new ItemPedidoNaoEncontradoException(itemPedidoId));
+    private Pedido validarItensDoPedido(ItemPedido itemPedido) {
+        Produto produto = produtoService.buscarOuFalhar(itemPedido.getProduto().getId());
+        Pedido pedido = pedidoService.buscarOuFalhar(itemPedido.getPedido().getId());
+
+        itemPedido.setPedido(pedido);
+        itemPedido.setProduto(produto);
+        itemPedido.setPrecoUnitario(produto.getPreco());
+
+        return pedido;
     }
+
 
 
 }
