@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class PedidoInput {
     @NotNull
     private Endereco enderecoEntrega;
 
-    private Integer desconto;
+    private BigDecimal desconto;
 
 //    @ManyToOne
 //    @JoinColumn(nullable = false)

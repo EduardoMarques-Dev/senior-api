@@ -59,7 +59,7 @@ public class ItemPedido {
     public void calcularPrecoTotal() {
         BigDecimal precoUnitario = this.getPrecoUnitario();
         Integer quantidade = this.getQuantidade();
-        BigDecimal desconto = BigDecimal.valueOf(1);
+        BigDecimal descontoAplicado = BigDecimal.valueOf(1);
 
         if (precoUnitario == null) {
             precoUnitario = BigDecimal.ZERO;
@@ -72,11 +72,11 @@ public class ItemPedido {
         if (produto != null
             && produto.getTipoItem() != null
             && produto.getTipoItem().equals(TipoItem.PRODUTO)){
-            desconto = pedido.getDesconto().divide(new BigDecimal(100));
+            descontoAplicado = pedido.getDesconto();
         }
 
         this.setPrecoTotal(precoUnitario.multiply(new BigDecimal(quantidade)));
-        this.setPrecoTotalComDesconto(precoTotal.multiply(desconto).setScale(2));
+        this.setPrecoTotalComDesconto(precoTotal.multiply(descontoAplicado).setScale(2));
         setPrecoTotalAtualizado(true);
     }
 

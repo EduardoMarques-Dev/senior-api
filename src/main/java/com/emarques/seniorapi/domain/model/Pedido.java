@@ -118,10 +118,11 @@ public class Pedido {
 //        registerEvent(new PedidoCanceladoEvent(this));
     }
 
-    public void setDesconto(BigDecimal desconto) {
-        if (getAberto()){
-            this.desconto = desconto;
+    public BigDecimal getDesconto() {
+        if (getAberto() && desconto != null){
+            return desconto;
         }
+        return BigDecimal.ONE;
     }
 
     public void abrir() {

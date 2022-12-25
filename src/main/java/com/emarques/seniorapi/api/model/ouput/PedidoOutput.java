@@ -22,7 +22,7 @@ public class PedidoOutput {
 
     private BigDecimal valorTotalComDesconto;
 
-    private Integer desconto;
+    private BigDecimal desconto;
 
     private Endereco enderecoEntrega;
 
