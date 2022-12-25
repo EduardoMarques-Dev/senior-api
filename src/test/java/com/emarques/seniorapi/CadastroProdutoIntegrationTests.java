@@ -24,9 +24,9 @@ import static org.hamcrest.Matchers.hasSize;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CadastroProdutoIntegrationTests {
+class CadastroProdutoIT {
 
-	private static final int PRODUTO_ID_INEXISTENTE = 100;
+	private static final String PRODUTO_ID_INEXISTENTE = "c850df68-5cf0-4912-ab5b-9025749ef169";
 
 	@LocalServerPort
 	private int port;
@@ -48,7 +48,7 @@ class CadastroProdutoIntegrationTests {
 
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 		RestAssured.port = port;
-		RestAssured.basePath = "/produtos";
+		RestAssured.basePath = "/v1/produtos";
 
 		jsonCorretoProduto = ResourceUtils.getContentFromResource(
 				"/json/correto/produto.json");
@@ -60,8 +60,6 @@ class CadastroProdutoIntegrationTests {
 	@Test
 	public void deveRetornarStatus200_QuandoConsultarProdutos() {
 		given()
-				.basePath("/produtos")
-				.port(port)
 				.accept(ContentType.JSON)
 				.when()
 				.get()
