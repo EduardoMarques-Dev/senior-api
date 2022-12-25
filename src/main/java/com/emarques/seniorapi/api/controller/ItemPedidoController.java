@@ -9,6 +9,8 @@ import com.emarques.seniorapi.domain.model.ItemPedido;
 import com.emarques.seniorapi.domain.service.ItemPedidoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +29,9 @@ public class ItemPedidoController {
     private ItemPedidoMapper conversor;
 
     @GetMapping
-    public ResponseEntity<List<ItemPedidoOutput>> listar(){
+    public ResponseEntity<Page<ItemPedidoOutput>> listar(Pageable pageable){
         return ResponseEntity.ok(
-                conversor.toOutputCollection(itemPedidoService.listar())
+                conversor.toOutputCollection(itemPedidoService.listar(pageable))
         );
     }
 

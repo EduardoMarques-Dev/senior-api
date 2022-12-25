@@ -9,6 +9,8 @@ import com.emarques.seniorapi.domain.model.Pedido;
 import com.emarques.seniorapi.domain.model.Produto;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -40,5 +42,10 @@ public class PedidoMapper implements ModelConverter<Pedido, PedidoInput, PedidoO
         return domainList.stream()
                 .map(domain -> toOutput(domain))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<PedidoOutput> toOutputCollection(Page<Pedido> domainList) {
+        return new PageImpl<>(toOutputCollection(domainList.toList()));
     }
 }

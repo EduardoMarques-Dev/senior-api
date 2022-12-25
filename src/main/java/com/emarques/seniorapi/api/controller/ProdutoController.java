@@ -9,6 +9,8 @@ import com.emarques.seniorapi.domain.model.Produto;
 import com.emarques.seniorapi.domain.service.ProdutoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +29,9 @@ public class ProdutoController {
     private ProdutoMapper conversor;
 
     @GetMapping
-    public ResponseEntity<List<ProdutoOutput>> listar(){
+    public ResponseEntity<Page<ProdutoOutput>> listar(Pageable pageable){
         return ResponseEntity.ok(
-                conversor.toOutputCollection(produtoService.listar())
+                conversor.toOutputCollection(produtoService.listar(pageable))
         );
     }
 

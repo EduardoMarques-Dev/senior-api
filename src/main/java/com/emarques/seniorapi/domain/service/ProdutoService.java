@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +28,8 @@ public class ProdutoService {
     /*----- CRUD -------*/
 
     @Transactional
-    public List<Produto> listar(){
-        return produtoRepository.findAll();
+    public Page<Produto> listar(Pageable pageable){
+        return produtoRepository.findAll(pageable);
     }
 
     @Transactional

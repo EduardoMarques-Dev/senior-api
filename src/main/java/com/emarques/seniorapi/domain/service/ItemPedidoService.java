@@ -13,6 +13,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,8 +33,8 @@ public class ItemPedidoService {
     private PedidoService pedidoService;
 
     @Transactional
-    public List<ItemPedido> listar(){
-        return itemPedidoRepository.findAll();
+    public Page<ItemPedido> listar(Pageable pageable){
+        return itemPedidoRepository.findAll(pageable);
     }
 
     @Transactional

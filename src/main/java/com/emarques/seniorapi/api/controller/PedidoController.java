@@ -10,6 +10,8 @@ import com.emarques.seniorapi.domain.model.Pedido;
 import com.emarques.seniorapi.domain.service.PedidoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +31,9 @@ public class PedidoController {
     private PedidoMapper conversor;
 
     @GetMapping
-    public ResponseEntity<List<PedidoOutput>> listar(){
+    public ResponseEntity<Page<PedidoOutput>> listar(Pageable pageable){
         return ResponseEntity.ok(
-                conversor.toOutputCollection(pedidoService.listar())
+                conversor.toOutputCollection(pedidoService.listar(pageable))
         );
     }
 
