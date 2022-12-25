@@ -41,9 +41,6 @@ public class PedidoService {
 
     @Transactional
     public Pedido salvar(Pedido pedido) {
-        // INICIALIZAR
-        validarPedido(pedido);
-
         // LÓGICA
         pedido.calcularValorTotal();
 
@@ -54,7 +51,6 @@ public class PedidoService {
     @Transactional
     public Pedido atualizar(UUID pedidoId, Pedido pedido) {
         // INICIALIZAR
-        validarPedido(pedido);
         Pedido pedidoAtual = buscarOuFalhar(pedidoId);
 
         // LÓGICA
@@ -78,52 +74,9 @@ public class PedidoService {
         }
     }
 
-    /*----- NEGOCIO -------*/
-
-    @Transactional
-    public void confirmar(UUID pedidoId) {
-        Pedido pedido = buscarOuFalhar(pedidoId);
-        pedido.confirmar();
-
-        pedidoRepository.save(pedido);
-    }
-
-    @Transactional
-    public void cancelar(UUID pedidoId) {
-        Pedido pedido = buscarOuFalhar(pedidoId);
-        pedido.cancelar();
-
-        pedidoRepository.save(pedido);
-    }
-
-    @Transactional
-    public void entregar(UUID pedidoId) {
-        Pedido pedido = buscarOuFalhar(pedidoId);
-        pedido.entregar();
-    }
-
     @Transactional
     public void aplicarDesconto(BigDecimal desconto, UUID pedidoId){
         Pedido pedido = buscarOuFalhar(pedidoId);
         pedido.setDesconto(desconto);
-    }
-
-    private void validarPedido(Pedido pedido) {
-        // VERIFICAR SE AS FOREIGN KEYS DO PEDIDO SÃO VÁLIDAS
-
-//        Cidade cidade = cadastroCidade.buscarOuFalhar(pedido.getEnderecoEntrega().getCidade().getId());
-//        Usuario cliente = cadastroUsuario.buscarOuFalhar(pedido.getCliente().getId());
-//        Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(pedido.getRestaurante().getId());
-//        FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(pedido.getFormaPagamento().getId());
-//
-//        pedido.getEnderecoEntrega().setCidade(cidade);
-//        pedido.setCliente(cliente);
-//        pedido.setRestaurante(restaurante);
-//        pedido.setFormaPagamento(formaPagamento);
-//
-//        if (restaurante.naoAceitaFormaPagamento(formaPagamento)) {
-//            throw new NegocioException(String.format("Forma de pagamento '%s' não é aceita por esse restaurante.",
-//                    formaPagamento.getDescricao()));
-//        }
     }
 }

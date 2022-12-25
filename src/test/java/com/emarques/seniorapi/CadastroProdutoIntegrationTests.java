@@ -3,6 +3,7 @@ package com.emarques.seniorapi;
 import com.emarques.seniorapi.domain.enumerator.TipoItem;
 import com.emarques.seniorapi.domain.model.Produto;
 import com.emarques.seniorapi.domain.repository.ProdutoRepository;
+import com.emarques.seniorapi.util.DatabaseCleaner;
 import com.emarques.seniorapi.util.ResourceUtils;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -38,14 +40,10 @@ class CadastroProdutoIT {
 
 	private Produto servico;
 
-	private int quantidadeProdutosCadastrados;
-
 	private String jsonCorretoProduto;
 
 	@BeforeEach
 	public void setUp() {
-		System.out.println("ANALISANDO A PORRA");
-
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 		RestAssured.port = port;
 		RestAssured.basePath = "/v1/produtos";
@@ -53,7 +51,6 @@ class CadastroProdutoIT {
 		jsonCorretoProduto = ResourceUtils.getContentFromResource(
 				"/json/correto/produto.json");
 
-//		databaseCleaner.clearTables();
 		prepararDados();
 	}
 
@@ -65,16 +62,6 @@ class CadastroProdutoIT {
 				.get()
 				.then()
 				.statusCode(HttpStatus.OK.value());
-	}
-
-	@Test
-	public void deveRetornarQuantidadeCorretaDeProdutos_QuandoConsultarProdutos() {
-		given()
-				.accept(ContentType.JSON)
-				.when()
-				.get()
-				.then()
-				.body("", hasSize(quantidadeProdutosCadastrados));
 	}
 
 	@Test
@@ -126,8 +113,6 @@ class CadastroProdutoIT {
 		servico.setPreco(BigDecimal.valueOf(125));
 		servico.setTipoItem(TipoItem.SERVICO);
 		servico = produtoRepository.save(servico);
-
-		quantidadeProdutosCadastrados = (int) produtoRepository.count();
 	}
 
 }

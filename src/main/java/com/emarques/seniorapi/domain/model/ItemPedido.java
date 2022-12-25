@@ -72,7 +72,7 @@ public class ItemPedido {
         if (produto != null
             && produto.getTipoItem() != null
             && produto.getTipoItem().equals(TipoItem.PRODUTO)){
-            descontoAplicado = pedido.getDesconto();
+            descontoAplicado = BigDecimal.ONE.subtract(pedido.getDesconto());
         }
 
         this.setPrecoTotal(precoUnitario.multiply(new BigDecimal(quantidade)));

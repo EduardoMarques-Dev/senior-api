@@ -1,7 +1,5 @@
 package com.emarques.seniorapi.domain.model;
 
-import com.emarques.seniorapi.domain.enumerator.StatusPedido;
-import com.emarques.seniorapi.domain.exception.NegocioException;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,39 +38,11 @@ public class Pedido {
 
     private Boolean aberto = true;
 
-    @Enumerated(EnumType.STRING)
-    private StatusPedido status = StatusPedido.CRIADO;
-
     @CreationTimestamp
     private OffsetDateTime dataCriacao;
 
-    private OffsetDateTime dataConfirmacao;
-
-    private OffsetDateTime dataCancelamento;
-
-    private OffsetDateTime dataEntrega;
-
-//    @ManyToOne
-//    @JoinColumn(nullable = false)
-//    private FormaPagamento formaPagamento;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "usuario_cliente_id", nullable = false)
-//    private Usuario cliente;
-
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens = new ArrayList<>();
-
-    private void setStatus(StatusPedido novoStatus) {
-        if (getStatus().naoPodeAlterarPara(novoStatus)) {
-            throw new NegocioException(
-                    String.format("Status do pedido %s não pode ser alterado de %s para %s",
-                            getId(), getStatus().getDescricao(),
-                            novoStatus.getDescricao()));
-        }
-
-        this.status = novoStatus;
-    }
 
     public BigDecimal getValorTotal() {
         if(!isValorTotalAtualizado)
@@ -97,25 +67,6 @@ public class Pedido {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         setValorTotalAtualizado(true);
-    }
-
-    public void confirmar() {
-        setStatus(StatusPedido.CONFIRMADO);
-        setDataConfirmacao(OffsetDateTime.now());
-//        registerEvent(new PedidoConfirmadoEvent(this));
-    }
-
-    public void entregar() {
-        setStatus(StatusPedido.ENTREGUE);
-        fechar();
-        setDataEntrega(OffsetDateTime.now());
-    }
-
-    public void cancelar() {
-        setStatus(StatusPedido.CANCELADO);
-        fechar();
-        setDataCancelamento(OffsetDateTime.now());
-//        registerEvent(new PedidoCanceladoEvent(this));
     }
 
     public BigDecimal getDesconto() {
