@@ -42,6 +42,20 @@ public class ProdutoController {
         );
     }
 
+    @GetMapping("/buscar-por")
+    public ResponseEntity<Page<ProdutoOutput>> buscarPorNome(@RequestParam String nome, Pageable pageable){
+        return ResponseEntity.ok(
+                conversor.toOutputCollection(produtoService.buscarPorNome(nome, pageable))
+        );
+    }
+
+    @GetMapping("/buscar-primeiro")
+    public ResponseEntity<ProdutoOutput> buscarPrimeiro(){
+        return ResponseEntity.ok(
+                conversor.toOutput(produtoService.buscarPrimeiro())
+        );
+    }
+
     @PostMapping
     public ResponseEntity<ProdutoOutput> salvar(@RequestBody @Valid ProdutoInput produtoInput){
         try {

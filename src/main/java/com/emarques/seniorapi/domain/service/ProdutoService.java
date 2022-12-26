@@ -1,6 +1,7 @@
 package com.emarques.seniorapi.domain.service;
 
 import com.emarques.seniorapi.domain.exception.EntidadeEmUsoException;
+import com.emarques.seniorapi.domain.exception.NegocioException;
 import com.emarques.seniorapi.domain.exception.ProdutoNaoEncontradoException;
 import com.emarques.seniorapi.domain.model.Produto;
 import com.emarques.seniorapi.domain.repository.ProdutoRepository;
@@ -36,6 +37,17 @@ public class ProdutoService {
     public Produto buscarOuFalhar(UUID produtoId) {
         return produtoRepository.findById(produtoId)
                 .orElseThrow(() -> new ProdutoNaoEncontradoException(produtoId));
+    }
+
+    @Transactional
+    public Page<Produto> buscarPorNome(String produtoNome, Pageable pageable) {
+        return produtoRepository.findByNomeContainingIgnoreCase(produtoNome, pageable);
+    }
+
+    @Transactional
+    public Produto buscarPrimeiro() {
+        return produtoRepository.buscarPrimeiro()
+                .orElseThrow(() -> new NegocioException("Não existem produtos cadastrados"));
     }
 
     @Transactional

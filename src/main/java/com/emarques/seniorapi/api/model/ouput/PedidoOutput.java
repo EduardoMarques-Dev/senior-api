@@ -2,6 +2,7 @@ package com.emarques.seniorapi.api.model.ouput;
 
 import com.emarques.seniorapi.domain.model.Endereco;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PedidoOutput {
 
     private UUID id;
