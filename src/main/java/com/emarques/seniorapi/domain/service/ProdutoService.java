@@ -68,7 +68,6 @@ public class ProdutoService {
     public void remover(UUID produtoId){
         try {
             produtoRepository.deleteById(produtoId);
-            produtoRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new ProdutoNaoEncontradoException(produtoId);
         } catch (DataIntegrityViolationException e) {

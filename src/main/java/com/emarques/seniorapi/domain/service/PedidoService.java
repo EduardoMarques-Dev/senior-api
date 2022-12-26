@@ -59,7 +59,6 @@ public class PedidoService {
     public void remover(UUID pedidoId){
         try {
             pedidoRepository.deleteById(pedidoId);
-            pedidoRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new PedidoNaoEncontradoException(pedidoId);
         } catch (DataIntegrityViolationException e) {

@@ -73,7 +73,6 @@ public class ItemPedidoService {
     public void remover(UUID itemPedidoId){
         try{
             itemPedidoRepository.deleteById(itemPedidoId);
-            itemPedidoRepository.flush();
         } catch (
                 EmptyResultDataAccessException e) {
             throw new ProdutoNaoEncontradoException(itemPedidoId);
