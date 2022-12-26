@@ -42,6 +42,8 @@ public class ItemPedido {
     @JoinColumn(nullable = false)
     private Produto produto;
 
+
+
     public BigDecimal getPrecoTotal() {
         if(!isPrecoTotalAtualizado)
             calcularPrecoTotal();
@@ -70,8 +72,8 @@ public class ItemPedido {
         }
 
         if (produto != null
-            && produto.getTipoItem() != null
-            && produto.getTipoItem().equals(TipoItem.PRODUTO)){
+                && produto.getTipoItem() != null
+                && produto.getTipoItem().equals(TipoItem.PRODUTO)){
             descontoAplicado = BigDecimal.ONE.subtract(pedido.getDesconto());
         }
 
@@ -79,6 +81,5 @@ public class ItemPedido {
         this.setPrecoTotalComDesconto(precoTotal.multiply(descontoAplicado).setScale(2));
         setPrecoTotalAtualizado(true);
     }
-
 
 }

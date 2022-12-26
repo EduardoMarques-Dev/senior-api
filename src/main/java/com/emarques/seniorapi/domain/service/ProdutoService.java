@@ -26,7 +26,7 @@ public class ProdutoService {
 
     private ProdutoRepository produtoRepository;
 
-    /*----- CRUD -------*/
+
 
     @Transactional
     public Page<Produto> listar(Pageable pageable){
@@ -52,19 +52,15 @@ public class ProdutoService {
 
     @Transactional
     public Produto salvar(Produto produto){
-        // PERSISTÊNCIA
         return produtoRepository.save(produto);
     }
 
     @Transactional
     public Produto atualizar(UUID produtoId, Produto produto){
-        // INICIALIZAR
         Produto produtoAtual = buscarOuFalhar(produtoId);
 
-        // LÓGICA
         BeanUtils.copyProperties(produto,produtoAtual, "id");
 
-        // PERSISTÊNCIA
         return produtoRepository.save(produtoAtual);
     }
 
@@ -81,7 +77,7 @@ public class ProdutoService {
         }
     }
 
-    /*----- NEGOCIO -------*/
+
 
     @Transactional
     public void ativar(UUID produtoId) {

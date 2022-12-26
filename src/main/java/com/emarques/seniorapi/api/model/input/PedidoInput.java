@@ -18,14 +18,6 @@ public class PedidoInput {
 
     private BigDecimal desconto;
 
-//    @ManyToOne
-//    @JoinColumn(nullable = false)
-//    private FormaPagamento formaPagamento;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "usuario_cliente_id", nullable = false)
-//    private Usuario cliente;
-
     private List<ItemPedidoInput> itens = new ArrayList<>();
 
 }

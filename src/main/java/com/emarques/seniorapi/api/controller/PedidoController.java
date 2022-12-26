@@ -27,7 +27,10 @@ import java.util.UUID;
 public class PedidoController {
 
     private PedidoService pedidoService;
+
     private PedidoMapper conversor;
+
+
 
     @GetMapping
     public ResponseEntity<Page<PedidoOutput>> listar(Pageable pageable){

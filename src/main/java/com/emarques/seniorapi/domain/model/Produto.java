@@ -39,6 +39,8 @@ public class Produto {
     @UpdateTimestamp
     private OffsetDateTime dataAtualizacao;
 
+
+
     public void ativar() {
         setAtivo(true);
     }
@@ -46,4 +48,5 @@ public class Produto {
     public void inativar() {
         setAtivo(false);
     }
+
 }

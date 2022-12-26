@@ -25,6 +25,8 @@ public class PedidoService {
 
     PedidoRepository pedidoRepository;
 
+
+
     @Transactional
     public Page<Pedido> listar(Pageable pageable){
         return pedidoRepository.findAll(pageable);
@@ -38,23 +40,18 @@ public class PedidoService {
 
     @Transactional
     public Pedido salvar(Pedido pedido) {
-        // LÓGICA
         pedido.calcularValorTotal();
 
-        // PERSISTÊNCIA
         return pedidoRepository.save(pedido);
     }
 
     @Transactional
     public Pedido atualizar(UUID pedidoId, Pedido pedido) {
-        // INICIALIZAR
         Pedido pedidoAtual = buscarOuFalhar(pedidoId);
 
-        // LÓGICA
         BeanUtils.copyProperties(pedido, pedidoAtual,"id");
         pedidoAtual.calcularValorTotal();
 
-        // PERSISTÊNCIA
         return pedidoRepository.save(pedidoAtual);
     }
 
@@ -70,6 +67,8 @@ public class PedidoService {
                     String.format(MSG_PEDIDO_EM_USO, pedidoId));
         }
     }
+
+
 
     @Transactional
     public void aplicarDesconto(BigDecimal desconto, UUID pedidoId){

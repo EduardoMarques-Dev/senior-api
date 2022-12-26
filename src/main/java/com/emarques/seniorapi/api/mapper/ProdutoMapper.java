@@ -16,7 +16,10 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 public class ProdutoMapper implements ModelConverter<Produto, ProdutoInput, ProdutoOutput> {
+
     private ModelMapper modelMapper;
+
+
     @Override
     public Produto toDomain(ProdutoInput input) {
         return modelMapper.map(input, Produto.class);

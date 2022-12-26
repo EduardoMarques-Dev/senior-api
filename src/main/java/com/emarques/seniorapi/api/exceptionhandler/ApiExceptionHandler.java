@@ -28,7 +28,6 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -90,7 +89,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(ProdutoNaoEncontradoException.class)
 	public ResponseEntity<?> handleProdutoNaoEncontrado(ProdutoNaoEncontradoException ex,
-														 WebRequest request) {
+														WebRequest request) {
 
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		ProblemType problemType = ProblemType.RECURSO_NAO_ENCONTRADO;
@@ -105,7 +104,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(PedidoNaoEncontradoException.class)
 	public ResponseEntity<?> handlePedidoNaoEncontrado(PedidoNaoEncontradoException ex,
-														WebRequest request) {
+													   WebRequest request) {
 
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		ProblemType problemType = ProblemType.RECURSO_NAO_ENCONTRADO;

@@ -17,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -28,9 +27,12 @@ public class ItemPedidoService {
             = "O Item do Pedido %d não pode ser removido, pois está em uso";
 
     private ItemPedidoRepository itemPedidoRepository;
+
     private ProdutoService produtoService;
 
     private PedidoService pedidoService;
+
+
 
     @Transactional
     public Page<ItemPedido> listar(Pageable pageable){
@@ -45,33 +47,25 @@ public class ItemPedidoService {
 
     @Transactional
     public ItemPedido salvar(ItemPedido itemPedido){
-        // INICIALIZAR
         Pedido pedido = validarItensDoPedido(itemPedido);
 
-        // LÓGICA
         itemPedido.calcularPrecoTotal();
 
-        // PERSISTÊNCIA
         itemPedido = itemPedidoRepository.save(itemPedido);
         pedidoService.atualizar(pedido.getId(),pedido);
-
         return itemPedido;
     }
 
     @Transactional
     public ItemPedido atualizar(UUID itemPedidoId, ItemPedido itemPedido){
-        // INICIALIZAR
         Pedido pedido = validarItensDoPedido(itemPedido);
         ItemPedido itemPedidoAtual = buscarOuFalhar(itemPedidoId);
 
-        // LÓGICA
         BeanUtils.copyProperties(itemPedido,itemPedidoAtual, "id");
         itemPedidoAtual.calcularPrecoTotal();
 
-        // PERSISTÊNCIA
         itemPedidoAtual = itemPedidoRepository.save(itemPedidoAtual);
         pedidoService.atualizar(pedido.getId(),pedido);
-
         return itemPedidoAtual;
     }
 
@@ -89,6 +83,7 @@ public class ItemPedidoService {
                     String.format(MSG_ITEM_PEDIDO_EM_USO, itemPedidoId));
         }
     }
+
 
     private Pedido validarItensDoPedido(ItemPedido itemPedido) {
         Produto produto = produtoService.buscarOuFalhar(itemPedido.getProduto().getId());

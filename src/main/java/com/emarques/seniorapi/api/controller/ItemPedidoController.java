@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -27,6 +26,8 @@ public class ItemPedidoController {
     private ItemPedidoService itemPedidoService;
 
     private ItemPedidoMapper conversor;
+
+
 
     @GetMapping
     public ResponseEntity<Page<ItemPedidoOutput>> listar(Pageable pageable){
