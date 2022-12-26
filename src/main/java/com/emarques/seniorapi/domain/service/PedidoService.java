@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,8 +24,6 @@ public class PedidoService {
             = "O Pedido %d não pode ser removido, pois está em uso";
 
     PedidoRepository pedidoRepository;
-
-    /*----- CRUD -------*/
 
     @Transactional
     public Page<Pedido> listar(Pageable pageable){
@@ -78,5 +75,17 @@ public class PedidoService {
     public void aplicarDesconto(BigDecimal desconto, UUID pedidoId){
         Pedido pedido = buscarOuFalhar(pedidoId);
         pedido.setDesconto(desconto);
+    }
+
+    @Transactional
+    public void abrirPedido(UUID pedidoId){
+        Pedido pedido = buscarOuFalhar(pedidoId);
+        pedido.abrir();
+    }
+
+    @Transactional
+    public void fecharPedido(UUID pedidoId){
+        Pedido pedido = buscarOuFalhar(pedidoId);
+        pedido.fechar();
     }
 }

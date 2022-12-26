@@ -24,6 +24,8 @@ public class Pedido {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    private Boolean aberto = true;
+
     private BigDecimal valorTotal;
 
     private BigDecimal valorTotalComDesconto;
@@ -35,8 +37,6 @@ public class Pedido {
 
     @Embedded
     private Endereco enderecoEntrega;
-
-    private Boolean aberto = true;
 
     @CreationTimestamp
     private OffsetDateTime dataCriacao;
@@ -73,7 +73,7 @@ public class Pedido {
         if (getAberto() && desconto != null){
             return desconto;
         }
-        return BigDecimal.ONE;
+        return BigDecimal.ZERO;
     }
 
     public void abrir() {

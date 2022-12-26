@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -50,9 +49,6 @@ public class PedidoController {
         try {
             Pedido novoPedido = conversor.toDomain(pedidoInput);
 
-//            novoPedido.setCliente(new Usuario());
-//            novoPedido.getCliente().setId(algaSecurity.getUsuarioId());
-
             novoPedido = pedidoService.salvar(novoPedido);
 
             return ResponseEntity
@@ -67,8 +63,6 @@ public class PedidoController {
     @PutMapping("/{pedidoId}")
     public ResponseEntity<PedidoOutput> atualizar(@PathVariable UUID pedidoId,
                                                   @RequestBody @Valid PedidoInput pedidoInput){
-        // Sempre que uma entidade possuir relacionamentos, é possível que o relacionamento passado não exista
-        // e isso dispare uma exception
         try {
             Pedido pedido = conversor.toDomain(pedidoInput);
 
@@ -80,15 +74,28 @@ public class PedidoController {
         }
     }
 
-    @PutMapping("/{pedidoId}/aplicarDesconto/{desconto}")
-    public ResponseEntity<Void> aplicarDesconto(@PathVariable UUID pedidoId, @PathVariable BigDecimal desconto){
-        pedidoService.aplicarDesconto(desconto, pedidoId);
-        return ResponseEntity.noContent().build();
-    }
-
     @DeleteMapping("/{pedidoId}")
     public ResponseEntity<Void> remover(@PathVariable UUID pedidoId){
         pedidoService.remover(pedidoId);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{pedidoId}/aplicar-desconto")
+    public ResponseEntity<Void> aplicarDesconto(@PathVariable UUID pedidoId, @RequestParam BigDecimal desconto){
+        pedidoService.aplicarDesconto(desconto, pedidoId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{pedidoId}/abrir-pedido")
+    public ResponseEntity<Void> abrirPedido(@PathVariable UUID pedidoId){
+        pedidoService.abrirPedido(pedidoId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{pedidoId}/fechar-pedido")
+    public ResponseEntity<Void> fecharPedido(@PathVariable UUID pedidoId){
+        pedidoService.fecharPedido(pedidoId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
