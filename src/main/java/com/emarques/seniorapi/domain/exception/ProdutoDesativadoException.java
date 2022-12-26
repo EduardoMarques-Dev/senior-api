@@ -11,7 +11,7 @@ public class ProdutoDesativadoException extends EntidadeNaoEncontradaException {
     }
 
     public ProdutoDesativadoException(UUID produtoId) {
-        this("O Produto com o código '"+produtoId+"' está desativado");
+        super("O Produto com o código '"+produtoId+"' está desativado");
     }
 
 

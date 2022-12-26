@@ -11,7 +11,7 @@ public class ItemPedidoNaoEncontradoException extends EntidadeNaoEncontradaExcep
     }
 
     public ItemPedidoNaoEncontradoException(UUID itemPedidoId) {
-        this("Não existe um cadastro de item do pedido com o código: "+ itemPedidoId.toString());
+        super("Não existe um cadastro de item do pedido com o código: "+ itemPedidoId);
     }
 
 

@@ -11,6 +11,6 @@ public class PedidoNaoEncontradoException extends EntidadeNaoEncontradaException
     }
 
     public PedidoNaoEncontradoException(UUID pedidoId) {
-        this("Não existe um cadastro de pedido com o código: "+ pedidoId.toString());
+        super("Não existe um cadastro de pedido com o código: "+ pedidoId);
     }
 }
