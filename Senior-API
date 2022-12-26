@@ -1,0 +1,926 @@
+{
+	"info": {
+		"_postman_id": "68881fef-714a-4888-9622-85e3dc2961e2",
+		"name": "Senior-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15297352"
+	},
+	"item": [
+		{
+			"name": "Produtos",
+			"item": [
+				{
+					"name": "Get",
+					"item": [
+						{
+							"name": "Listar Produtos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/produtos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"produtos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ERRO - Buscar Produto",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/produtos/df3a97a5-2604-47dc-b622-ff6fb13845c3",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"produtos",
+										"df3a97a5-2604-47dc-b622-ff6fb13845c3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Produto",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/produtos/df3a97a5-2604-47dc-b622-ff6fb13845c2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"produtos",
+										"df3a97a5-2604-47dc-b622-ff6fb13845c2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Por Nome",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/produtos/buscar-por?nome=M",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"produtos",
+										"buscar-por"
+									],
+									"query": [
+										{
+											"key": "nome",
+											"value": "M"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Primeiro",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/produtos/buscar-primeiro",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"produtos",
+										"buscar-primeiro"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Post",
+					"item": [
+						{
+							"name": "ERRO - Salvar Produto",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\":\"\",\r\n    \"descricao\":\"\",\r\n    \"preco\": \"-10\",\r\n    \"tipoItem\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/produtos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"produtos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Salvar Produto",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\":\"Teclado\",\r\n    \"descricao\":\"Aparelho para digitar\",\r\n    \"preco\": \"80\",\r\n    \"tipoItem\": \"PRODUTO\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/produtos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"produtos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Put",
+					"item": [
+						{
+							"name": "ERRO - Atualizar Produto",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\":\"\",\r\n    \"descricao\":\"\",\r\n    \"preco\": \"-68\",\r\n    \"tipoItem\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/produtos/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"produtos",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "df3a97a5-2604-47dc-b622-ff6fb13845c2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar Produto",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Mochila Mais que Bonita\",\r\n    \"descricao\": \"Mochila tão bonita que deixa de ser um produto e se torna um serviço\",\r\n    \"preco\": 180.00,\r\n    \"tipoItem\": \"SERVICO\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/produtos/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"produtos",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "df3a97a5-2604-47dc-b622-ff6fb13845c2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Inativar Produto",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\":\"celular\",\r\n    \"descricao\":\"aparelho de comunicação\",\r\n    \"preco\": \"3500\",\r\n    \"tipoItem\": \"PRODUTO\",\r\n    \"ativo\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/produtos/:id/inativo",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"produtos",
+										":id",
+										"inativo"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "df3a97a5-2604-47dc-b622-ff6fb13845c2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ativar Produto",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\":\"celular\",\r\n    \"descricao\":\"aparelho de comunicação\",\r\n    \"preco\": \"3500\",\r\n    \"tipoItem\": \"PRODUTO\",\r\n    \"ativo\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/produtos/:id/ativo",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"produtos",
+										":id",
+										"ativo"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "df3a97a5-2604-47dc-b622-ff6fb13845c2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ERRO - Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/produtos/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produtos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "df3a97a5-2604-47dc-b622-ff6fb13845c3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/produtos/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produtos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "df3a97a5-2604-47dc-b622-ff6fb13845c2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedido",
+			"item": [
+				{
+					"name": "Get",
+					"item": [
+						{
+							"name": "Listar Pedidos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/pedidos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"pedidos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ERRO - Buscar Pedidos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/pedidos/0f8cec05-e40d-41d0-ad5d-44e73733f734",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"pedidos",
+										"0f8cec05-e40d-41d0-ad5d-44e73733f734"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Pedido",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/pedidos/0f8cec05-e40d-41d0-ad5d-44e73733f735",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"pedidos",
+										"0f8cec05-e40d-41d0-ad5d-44e73733f735"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Post",
+					"item": [
+						{
+							"name": "ERRO - Salvar Pedido",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"desconto\": \"-50\",\r\n    \"enderecoEntrega\": {\r\n        \"cep\": \"\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/pedidos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"pedidos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Salvar Pedido",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\r\n        \"desconto\": \"0.5\",\r\n        \"enderecoEntrega\": {\r\n            \"cep\": \"66110-058\",\r\n            \"logradouro\": \"rua quatorze A\",\r\n            \"numero\": \"4051\",\r\n            \"complemento\": \"Sem complemento\",\r\n            \"bairro\": \"Maracangalha\"\r\n        }\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/pedidos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"pedidos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Put",
+					"item": [
+						{
+							"name": "ERRO - Atualizar Pedido",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"desconto\": \"-50\",\r\n    \"enderecoEntrega\": {\r\n        \"cep\": \"\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/pedidos/:pedidoId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"pedidos",
+										":pedidoId"
+									],
+									"variable": [
+										{
+											"key": "pedidoId",
+											"value": "0f8cec05-e40d-41d0-ad5d-44e73733f735"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar Pedido",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\r\n        \"desconto\": \"0.75\",\r\n        \"enderecoEntrega\": {\r\n            \"cep\": \"66110-0581\",\r\n            \"logradouro\": \"rua quatorze A1\",\r\n            \"numero\": \"40511\",\r\n            \"complemento\": \"Sem complemento1\",\r\n            \"bairro\": \"Maracangalha1\"\r\n        }\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/pedidos/:pedidoId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"pedidos",
+										":pedidoId"
+									],
+									"variable": [
+										{
+											"key": "pedidoId",
+											"value": "0f8cec05-e40d-41d0-ad5d-44e73733f735"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Abrir Pedido",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\r\n        \"desconto\": \"0.5\",\r\n        \"enderecoEntrega\": {\r\n            \"cep\": \"66110-0581\",\r\n            \"logradouro\": \"rua quatorze A1\",\r\n            \"numero\": \"40511\",\r\n            \"complemento\": \"Sem complemento1\",\r\n            \"bairro\": \"Maracangalha1\"\r\n        }\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/pedidos/:pedidoId/abrir-pedido",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"pedidos",
+										":pedidoId",
+										"abrir-pedido"
+									],
+									"variable": [
+										{
+											"key": "pedidoId",
+											"value": "0f8cec05-e40d-41d0-ad5d-44e73733f735"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Fechar Pedido",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\r\n        \"desconto\": \"0.5\",\r\n        \"enderecoEntrega\": {\r\n            \"cep\": \"66110-0581\",\r\n            \"logradouro\": \"rua quatorze A1\",\r\n            \"numero\": \"40511\",\r\n            \"complemento\": \"Sem complemento1\",\r\n            \"bairro\": \"Maracangalha1\"\r\n        }\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/pedidos/:pedidoId/fechar-pedido",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"pedidos",
+										":pedidoId",
+										"fechar-pedido"
+									],
+									"variable": [
+										{
+											"key": "pedidoId",
+											"value": "0f8cec05-e40d-41d0-ad5d-44e73733f735"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Aplicar Desconto",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\r\n        \"desconto\": \"0.5\",\r\n        \"enderecoEntrega\": {\r\n            \"cep\": \"66110-0581\",\r\n            \"logradouro\": \"rua quatorze A1\",\r\n            \"numero\": \"40511\",\r\n            \"complemento\": \"Sem complemento1\",\r\n            \"bairro\": \"Maracangalha1\"\r\n        }\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/pedidos/:pedidoId/aplicar-desconto?desconto=0.9",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"pedidos",
+										":pedidoId",
+										"aplicar-desconto"
+									],
+									"query": [
+										{
+											"key": "desconto",
+											"value": "0.9"
+										}
+									],
+									"variable": [
+										{
+											"key": "pedidoId",
+											"value": "0f8cec05-e40d-41d0-ad5d-44e73733f735"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ERRO - Deletar Pedido",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/pedidos/:pedidoId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pedidos",
+								":pedidoId"
+							],
+							"variable": [
+								{
+									"key": "pedidoId",
+									"value": "0f8cec05-e40d-41d0-ad5d-44e73733f733"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Pedido",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/pedidos/:pedidoId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pedidos",
+								":pedidoId"
+							],
+							"variable": [
+								{
+									"key": "pedidoId",
+									"value": "0f8cec05-e40d-41d0-ad5d-44e73733f735"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Item Pedido",
+			"item": [
+				{
+					"name": "Get",
+					"item": [
+						{
+							"name": "Listar ItemPedidos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/itemPedidos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"itemPedidos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ERRO - ItemPedido",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/itemPedidos/:pedidoId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"itemPedidos",
+										":pedidoId"
+									],
+									"variable": [
+										{
+											"key": "pedidoId",
+											"value": "02db1d2c-9b7c-472d-9dd0-fbdece8a42b6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar ItemPedido",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/itemPedidos/:pedidoId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"itemPedidos",
+										":pedidoId"
+									],
+									"variable": [
+										{
+											"key": "pedidoId",
+											"value": "02db1d2c-9b7c-472d-9dd0-fbdece8a42b7"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Post",
+					"item": [
+						{
+							"name": "ERRO - Salvar ItemPedido",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantidade\": 3,\r\n    \"observacao\": \"Observando\",\r\n    \"produto\": {\r\n        \"id\": \"4f6eb736-ae34-44c2-966e-c565fd9f9dd4\"\r\n    },\r\n    \"pedido\": {\r\n        \"id\":\"0f8cec05-e40d-41d0-ad5d-44e73733f735\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/itemPedidos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"itemPedidos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ERRO2 - Salvar ItemPedido",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantidade\": 1,\r\n    \"produto\": {\r\n    },\r\n    \"pedido\": {\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/itemPedidos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"itemPedidos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Salvar ItemPedido",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantidade\": 2,\r\n    \"observacao\": \"Eu gosto desse produto\",\r\n    \"produto\": {\r\n        \"id\": \"df3a97a5-2604-47dc-b622-ff6fb13845c2\"\r\n    },\r\n    \"pedido\": {\r\n        \"id\":\"0f8cec05-e40d-41d0-ad5d-44e73733f735\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/itemPedidos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"itemPedidos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Put",
+					"item": [
+						{
+							"name": "Atualizar ItemPedido",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantidade\": 3,\r\n    \"observacao\": \"Eu gosto muito desse produto\",\r\n    \"produto\": {\r\n        \"id\": \"df3a97a5-2604-47dc-b622-ff6fb13845c2\"\r\n    },\r\n    \"pedido\": {\r\n        \"id\":\"0f8cec05-e40d-41d0-ad5d-44e73733f735\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/itemPedidos/:itemPedidoId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"itemPedidos",
+										":itemPedidoId"
+									],
+									"variable": [
+										{
+											"key": "itemPedidoId",
+											"value": "02db1d2c-9b7c-472d-9dd0-fbdece8a42b7"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Deletar ItemPedido",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/itemPedidos/:itemPedidoId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"itemPedidos",
+								":itemPedidoId"
+							],
+							"variable": [
+								{
+									"key": "itemPedidoId",
+									"value": "02db1d2c-9b7c-472d-9dd0-fbdece8a42b7"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
